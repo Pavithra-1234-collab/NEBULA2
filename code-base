@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula | Smart Home Monitoring</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3a0ca3;
+            --secondary: #4361ee;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #1a1a2e;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #f8f9fa;
+            text-shadow: 0 0 10px rgba(76, 45, 250, 0.5);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(26, 26, 46, 0.7), rgba(26, 26, 46, 0.7)), url('/api/placeholder/1200/800');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            --box-shadow: 0 4px 20px rgba(101, 9, 239, 0.5);
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            animation: fadeIn 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
+        }
+        
+        /* Features Section */
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #666;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            flex: 1 1 300px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-card i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Tracking Dashboard */
+        #tracking {
+            background-color: var(--dark);
+            color: white;
+        }
+        
+        .devices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .device-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .device-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .device-header {
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .device-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .device-name i {
+            font-size: 1.2rem;
+        }
+        
+        .device-status {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .device-status.inactive {
+            background: #888;
+            animation: none;
+        }
+        
+        .device-body {
+            padding: 1.2rem;
+        }
+        
+        .device-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-label {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        .info-value {
+            font-weight: 600;
+        }
+        
+        .device-chart {
+            height: 80px;
+            margin-top: 1rem;
+            background: rgba(76, 201, 240, 0.1);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Contact Form */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .contact-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-form {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* About Section */
+        .about-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .about-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .about-content p {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: #555;
+        }
+        
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-logo i {
+            margin-right: 10px;
+        }
+        
+        .footer-about p {
+            margin-bottom: 1rem;
+            color: #ccc;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .footer-social a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Dark Mode */
+        body.dark-mode {
+            background-color: var(--dark);
+            color: #f8f9fa;
+        }
+        
+        .dark-mode .feature-card,
+        .dark-mode .contact-card,
+        .dark-mode .contact-form {
+            background: #2a2a42;
+        }
+        
+        .dark-mode .section-header p,
+        .dark-mode .about-content p {
+            color: #ccc;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-header h2, 
+            .about-content h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size:
+                2rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-rocket"></i> Nebula
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tracking">Tracking</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Monitoring Home Appliances for Mobility-Inclusive People</h1>
+                <p>Project Neptune's revolutionary platform helps track appliance usage to ensure safety and comfort for people with mobility challenges.</p>
+                <a href="#tracking" class="btn btn-primary">Start Tracking</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section=wht our company is trying to provide -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Nebula provides comprehensive monitoring solutions to enhance the quality of life for mobility-inclusive individuals.</p>
+            </div>
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-house-user"></i>
+                    <h3>Smart Home Integration</h3>
+                    <p>Seamless integration with existing smart home devices for comprehensive monitoring and control.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Real-time Tracking</h3>
+                    <p>Monitor appliance usage in real-time with instant notifications and detailed activity logs.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Emergency Response</h3>
+                    <p>Automatic alerts to emergency services, caregivers, and family members when needed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tracking Section=dashboards-->
+    <section class="section" id="tracking">
+        <div class="container">
+            <div class="section-header">
+                <h2>Device Tracking</h2>
+                <p>Monitor all connected appliances and devices being accessed by mobility-inclusive individuals.</p>
+            </div>
+            <div class="devices-grid">
+                <div class="device-card">
+                    <div class="device-header">
+                        <div class="device-name">
+                            <i class="fas fa-tv"></i>
+                            <h3>Living Room TV</h3>
+                        </div>
+                        <div class="device-status">Active</div>
+                    </div>
+                    <div class="device-body">
+                        <div class="device-info">
+                            <div class="info-item">
+                                <span class="info-label">User</span>
+                                <span class="info-value">John</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Duration</span>
+                                <span class="info-value">1h 23m</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Mode</span>
+                                <span class="info-value">Entertainment</span>
+                            </div>
+                        </div>
+                        <div class="device-chart">
+                            <!-- Chart visualization would go here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="device-card">
+                    <div class="device-header">
+                        <div class="device-name">
+                            <i class="fas fa-temperature-high"></i>
+                            <h3>Kitchen Stove</h3>
+                        </div>
+                        <div class="device-status inactive">Inactive</div>
+                    </div>
+                    <div class="device-body">
+                        <div class="device-info">
+                            <div class="info-item">
+                                <span class="info-label">Last User</span>
+                                <span class="info-value">inder</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Last Used</span>
+                                <span class="info-value">Today, 12:45 PM</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Status</span>
+                                <span class="info-value">Safe</span>
+                            </div>
+                        </div>
+                        <div class="device-chart">
+                            <!-- Chart visualization would go here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="device-card">
+                    <div class="device-header">
+                        <div class="device-name">
+                            <i class="fas fa-bath"></i>
+                            <h3>Bathroom Lights</h3>
+                        </div>
+                        <div class="device-status">Active</div>
+                    </div>
+                    <div class="device-body">
+                        <div class="device-info">
+                            <div class="info-item">
+                                <span class="info-label">User</span>
+                                <span class="info-value">Sarah Williams</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Duration</span>
+                                <span class="info-value">15m</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Brightness</span>
+                                <span class="info-value">80%</span>
+                            </div>
+                        </div>
+                        <div class="device-chart">
+                            <!-- Chart visualization would go here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="device-card">
+                    <div class="device-header">
+                        <div class="device-name">
+                            <i class="fas fa-door-open"></i>
+                            <h3>Front Door</h3>
+                        </div>
+                        <div class="device-status inactive">Inactive</div>
+                    </div>
+                    <div class="device-body">
+                        <div class="device-info">
+                            <div class="info-item">
+                                <span class="info-label">Last Used</span>
+                                <span class="info-value">Today, 9:30 AM</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Status</span>
+                                <span class="info-value">Locked</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Security</span>
+                                <span class="info-value">Active</span>
+                            </div>
+                        </div>
+                        <div class="device-chart">
+                            <!-- Chart visualization would go here4-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section= asking details from the users-->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Emergency Contacts</h2>
+                <p>Register emergency contacts to be notified in case of any unusual activity or emergencies.</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-fire-extinguisher"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Fire Department</h3>
+                            <p>Emergency: 101</p>
+                            <p>Non-emergency:9445086012</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>County Hospital</h3>
+                            <p>Emergency: 108</p>
+                            <p>Main Line: 044-28290200</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Police Station</h3>
+                            <p>Emergency: 100</p>
+                            <p>Local Precinct:044-27427412</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Emergency details </h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="relationship">Relationship</label>
+                            <input type="text" id="relationship" class="form-control" placeholder="E.g., Family, Caregiver, Doctor">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Additional Notes</label>
+                            <textarea id="notes" class="form-control" placeholder="Enter any additional information"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Register Contact</button>
+                    </form>
+        </div>
+            </div>
+    </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About Nebula</h2>
+                <p>Learn more about our mission and the team behind Project Neptune.</p>
+            </div>
+            <div class="about-container">
+                <div class="about-image">
+                    <img src="/api/placeholder/600/400" alt="Nebula Team">
+                </div>
+                <div class="about-content">
+                    <h2>Our Mission</h2>
+                    <p>At Nebula, we're dedicated to enhancing the independence and safety of mobility-inclusive individuals through innovative smart home technology.</p>
+                    <p>Founded in 2025, our team of engineers, healthcare professionals, and accessibility experts work together to create solutions that make everyday living easier and safer for everyone.</p>
+                    <p>Project Neptune represents our flagship initiative to connect mobility-inclusive people with their home environment in ways that empower and protect them.</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">5,000+</div>
+                            <div class="stat-label">Users</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">99.9%</div>
+                            <div class="stat-label">Satisfaction</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Support</div>
+                        </div>
+                    </div>
+                  </div>
+                 </div>
+                      </div>
+           </section>
+
+    <!-- Footer= closing tags-->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <i class="fas fa-rocket"></i> Nebula
+                    </div>
+                    <p>Innovative smart home monitoring solutions for mobility-inclusive individuals. Making homes safer, more accessible, and more connected.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#tracking">Device Tracking</a></li>
+                        <li><a href="#contact">Emergency Contacts</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
